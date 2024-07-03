@@ -29,14 +29,3 @@ dist-ssr
 *.env
 *.md
 *.lock
-*.json
-*.yml
-*.yaml
-*.tgz
-*.swp
-*.zip
-*.gz
-*.tar
-*.rar
-*.bak
-*.log
