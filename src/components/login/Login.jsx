@@ -9,7 +9,7 @@ import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { set } from "firebase/database";
+
 
 const Login = () => {
     const [avatar, setAvatar] = useState({
@@ -39,6 +39,7 @@ const Login = () => {
         if (!username || !email || !password)
             return toast.warn("Please enter inputs!");
         if (!avatar.file) return toast.warn("Please upload an avatar!");
+        
 
         // VALIDATE UNIQUE USERNAME
         const usersRef = collection(db, "users");
