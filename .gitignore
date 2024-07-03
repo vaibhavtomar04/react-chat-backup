@@ -23,3 +23,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Misc
+*.DS_Store
+*.env
+*.md
+*.lock
+*.json
+*.yml
+*.yaml
+*.tgz
+*.swp
+*.zip
+*.gz
+*.tar
+*.rar
+*.bak
+*.log
