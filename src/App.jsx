@@ -30,6 +30,7 @@ const App = () => {
   }, [fetchUserInfo]);
 
   const handleTabClose = (event) => {
+    event.preventDefault();
     // Check if the tab is being refreshed
     if (!isTabRefreshed.current) {
       signOut(auth); // Logout only if the tab is closing, not refreshing
