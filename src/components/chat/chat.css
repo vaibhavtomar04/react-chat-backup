@@ -68,7 +68,7 @@
       display: flex;
       gap: 20px;
 
-      &.own {;
+      &.own {
         align-self: flex-end;
 
         .texts {
