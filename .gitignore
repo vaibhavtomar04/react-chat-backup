@@ -29,7 +29,6 @@ dist-ssr
 *.env
 *.md
 *.lock
-*.json
 *.yml
 *.yaml
 *.tgz
