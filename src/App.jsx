@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
@@ -13,42 +13,33 @@ const App = () => {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
   const { chatId } = useChatStore();
 
-  const isTabRefreshed = useRef(false); // Ref to track tab refresh
-
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
     });
 
-    // Listen for tab close or refresh
-    window.addEventListener("beforeunload", handleTabClose);
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       unSub();
-      window.removeEventListener("beforeunload", handleTabClose);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [fetchUserInfo]);
 
-  const handleTabClose = (event) => {
-    event.preventDefault();
-    // Check if the tab is being refreshed
-    if (!isTabRefreshed.current) {
-      signOut(auth); // Logout only if the tab is closing, not refreshing
-    }
+  const handleBeforeUnload = (event) => {
+    // Set a flag in sessionStorage before the page unloads
+    sessionStorage.setItem("isPageRefreshing", "true");
   };
 
-  // Detect tab refresh and set the flag
-  useEffect(() => {
-    const handleRefresh = () => {
-      isTabRefreshed.current = true;
-    };
-
-    window.addEventListener("beforeunload", handleRefresh);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleRefresh);
-    };
-  }, []);
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden" && !sessionStorage.getItem("isPageRefreshing")) {
+      signOut(auth); // Logout when the tab is closed
+    } else {
+      sessionStorage.removeItem("isPageRefreshing");
+    }
+  };
 
   if (isLoading) {
     return (
