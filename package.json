@@ -13,6 +13,7 @@
     "start:prod": "serve -s dist"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "emoji-picker-react": "^4.9.2",
     "firebase": "^10.12.1",
     "react": "^18.2.0",
