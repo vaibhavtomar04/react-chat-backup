@@ -38,8 +38,19 @@ const Login = () => {
 
         // VALIDATE INPUTS
         if (!username || !email || !password)
-            return toast.warn("Please enter inputs!");
-        if (!avatar.file) return toast.warn("Please upload an avatar!");
+        {toast.warn("Please enter inputs!");
+        registerFormRef.current.reset();
+        setAvatar({ file: null, url: "" });
+        setLoading(false);
+        return;
+       }   
+        if (!avatar.file) {
+           toast.warn("Please upload an avatar!");
+           registerFormRef.current.reset();
+           setAvatar({ file: null, url: "" });
+           setLoading(false);
+           return;
+        }
         
 
         // VALIDATE UNIQUE USERNAME
@@ -56,6 +67,16 @@ const Login = () => {
             setLoading(false);
             return;
         }
+
+        // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        toast.error("Please enter a valid email address!");
+        registerFormRef.current.reset();  
+        setAvatar({ file: null, url: "" }); 
+        setLoading(false);
+        return;
+    }
 
         try {
             toast.loading("Creating account...");
